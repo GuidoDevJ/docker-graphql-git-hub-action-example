@@ -13,6 +13,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Git Semantic Version
+      uses: PaulHatch/semantic-version@v4.0.3
+      with:
+        major_pattern: "major"
+        minor_pattern: "feat"
+        format: "${major}.${minor}.${patch}-prerealese{increment}"
     - name: Checkout Code
       uses: actions/checkout@v3
       with:
@@ -24,12 +30,16 @@ jobs:
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: Build Docker Image
+      env:
+        NEW_VERSION: ${{steps.version.outputs.version}}
       run: |
-        docker build -t guidodevj/example_grapql:0.0.2 .
+        docker build -t guidodevj/example_grapql:$NEW_VERSION .
         docker build -t guidodevj/example_grapql:latest .
     - name: Push Docker image
+      env:
+        NEW_VERSION: ${{steps.version.outputs.version}}
       run: |
-        docker push guidodevj/example_grapql:0.0.2
+        docker push guidodevj/example_grapql:$NEW_VERSION 
         docker push guidodevj/example_grapql:latest
         
 #     - name: Build the Docker image
