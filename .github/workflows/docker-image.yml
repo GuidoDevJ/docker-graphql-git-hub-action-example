@@ -26,10 +26,11 @@ jobs:
     - name: Build Docker Image
       run: |
         docker build -t guidodevj/example_grapql:0.0.2 .
-        
+        docker build -t guidodevj/example_grapql:latest .
     - name: Push Docker image
       run: |
         docker push guidodevj/example_grapql:0.0.2
+        docker push guidodevj/example_grapql:latest
         
 #     - name: Build the Docker image
 #       run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
