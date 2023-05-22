@@ -34,6 +34,7 @@ jobs:
       env:
         NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
+        echo "esta es la new $NEW_VERSION"
         docker build -t guidodevj/example_grapql:$NEW_VERSION .
         docker build -t guidodevj/example_grapql:latest .
     - name: Push Docker image
